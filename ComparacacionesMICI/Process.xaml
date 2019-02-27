@@ -1,0 +1,167 @@
+﻿<Activity mc:Ignorable="sap sap2010 sads" x:Class="ProcessTransaction"
+ xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities"
+ xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+ xmlns:mva="clr-namespace:Microsoft.VisualBasic.Activities;assembly=System.Activities"
+ xmlns:sads="http://schemas.microsoft.com/netfx/2010/xaml/activities/debugger"
+ xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation"
+ xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation"
+ xmlns:scg="clr-namespace:System.Collections.Generic;assembly=mscorlib"
+ xmlns:sco="clr-namespace:System.Collections.ObjectModel;assembly=mscorlib"
+ xmlns:sd="clr-namespace:System.Data;assembly=System.Data"
+ xmlns:ui="http://schemas.uipath.com/workflow/activities"
+ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <x:Members>
+    <x:Property Name="in_Config" Type="InArgument(scg:Dictionary(x:String, x:Object))" />
+    <x:Property Name="io_BrowserIdbLegacy" Type="InOutArgument(ui:Browser)" />
+    <x:Property Name="io_BrowserIdb" Type="InOutArgument(ui:Browser)" />
+    <x:Property Name="io_dt_CompareIdb" Type="InOutArgument(sd:DataTable)" />
+    <x:Property Name="io_dt_CompareIdbLegacy" Type="InOutArgument(sd:DataTable)" />
+    <x:Property Name="io_TransactionItem" Type="InOutArgument(sd:DataRow)" />
+    <x:Property Name="in_TransactionData" Type="InArgument(sd:DataTable)" />
+    <x:Property Name="in_TransactionNumber" Type="InArgument(x:Int32)" />
+    <x:Property Name="io_listaError" Type="InOutArgument(scg:List(x:String))" />
+    <x:Property Name="io_dt_ScrapeLegacy" Type="InOutArgument(sd:DataTable)" />
+    <x:Property Name="io_dt_ScrapeNew" Type="InOutArgument(sd:DataTable)" />
+  </x:Members>
+  <mva:VisualBasic.Settings>
+    <x:Null />
+  </mva:VisualBasic.Settings>
+  <sap2010:WorkflowViewState.IdRef>ProcessTransaction_1</sap2010:WorkflowViewState.IdRef>
+  <TextExpression.NamespacesForImplementation>
+    <sco:Collection x:TypeArguments="x:String">
+      <x:String>System.Activities</x:String>
+      <x:String>System.Activities.Statements</x:String>
+      <x:String>System.Activities.Expressions</x:String>
+      <x:String>System.Activities.Validation</x:String>
+      <x:String>System.Activities.XamlIntegration</x:String>
+      <x:String>Microsoft.VisualBasic</x:String>
+      <x:String>Microsoft.VisualBasic.Activities</x:String>
+      <x:String>System</x:String>
+      <x:String>System.Collections</x:String>
+      <x:String>System.Collections.Generic</x:String>
+      <x:String>System.Data</x:String>
+      <x:String>System.Diagnostics</x:String>
+      <x:String>System.Drawing</x:String>
+      <x:String>System.IO</x:String>
+      <x:String>System.Linq</x:String>
+      <x:String>System.Net.Mail</x:String>
+      <x:String>System.Xml</x:String>
+      <x:String>System.Xml.Linq</x:String>
+      <x:String>UiPath.Core</x:String>
+      <x:String>UiPath.Core.Activities</x:String>
+      <x:String>System.Windows.Markup</x:String>
+      <x:String>System.Xml.Serialization</x:String>
+    </sco:Collection>
+  </TextExpression.NamespacesForImplementation>
+  <TextExpression.ReferencesForImplementation>
+    <sco:Collection x:TypeArguments="AssemblyReference">
+      <AssemblyReference>System.Activities</AssemblyReference>
+      <AssemblyReference>Microsoft.VisualBasic</AssemblyReference>
+      <AssemblyReference>mscorlib</AssemblyReference>
+      <AssemblyReference>System.Data</AssemblyReference>
+      <AssemblyReference>System</AssemblyReference>
+      <AssemblyReference>System.Drawing</AssemblyReference>
+      <AssemblyReference>System.Core</AssemblyReference>
+      <AssemblyReference>System.Xml</AssemblyReference>
+      <AssemblyReference>System.Xml.Linq</AssemblyReference>
+      <AssemblyReference>PresentationFramework</AssemblyReference>
+      <AssemblyReference>WindowsBase</AssemblyReference>
+      <AssemblyReference>PresentationCore</AssemblyReference>
+      <AssemblyReference>System.Xaml</AssemblyReference>
+      <AssemblyReference>System.ComponentModel.Composition</AssemblyReference>
+      <AssemblyReference>System.ServiceModel</AssemblyReference>
+      <AssemblyReference>Microsoft.VisualStudio.Services.Common</AssemblyReference>
+      <AssemblyReference>UiPath.UiAutomation.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.System.Activities</AssemblyReference>
+      <AssemblyReference>System.Data.DataSetExtensions</AssemblyReference>
+      <AssemblyReference>System.ValueTuple</AssemblyReference>
+      <AssemblyReference>UiPath.Excel</AssemblyReference>
+      <AssemblyReference>UiPath.Mail</AssemblyReference>
+      <AssemblyReference>UiPath.Studio.Plugin.Workflow</AssemblyReference>
+      <AssemblyReference>System.Data.Entity</AssemblyReference>
+      <AssemblyReference>System.Runtime.WindowsRuntime</AssemblyReference>
+    </sco:Collection>
+  </TextExpression.ReferencesForImplementation>
+  <Sequence sap2010:Annotation.AnnotationText="Description: In this file all other process specific files will be invoked. If an application exception occurs, the current transaction can be retried. If a BRE is thrown, the transaction will be skipped. Can be a flowchart or sequence. " DisplayName="ProcessTransaction" sap2010:WorkflowViewState.IdRef="Sequence_1">
+    <WriteLine DisplayName="Write Line" sap2010:WorkflowViewState.IdRef="WriteLine_1" Text="[io_TransactionItem(0).ToString]" />
+    <ui:NavigateTo Browser="[io_BrowserIdbLegacy]" DisplayName="Navigate To" sap2010:WorkflowViewState.IdRef="NavigateTo_1" Url="[&quot;https://idblegacy.iadb.org/en/mici/complaint-detail,19172.html?ID=&quot;+io_TransactionItem(0).ToString]" />
+    <ui:NavigateTo Browser="[io_BrowserIdb]" DisplayName="Navigate To" sap2010:WorkflowViewState.IdRef="NavigateTo_2" Url="[&quot;https://www.iadb.org/en/mici/complaint-detail?ID=&quot;+io_TransactionItem(0).ToString]" />
+    <ui:InvokeWorkflowFile ContinueOnError="{x:Null}" DisplayName="Invoke IdbLegacyExtract workflow" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_1" UnSafe="False" WorkflowFileName="IdbLegacy\IdbLegacyExtract.xaml">
+      <ui:InvokeWorkflowFile.Arguments>
+        <InArgument x:TypeArguments="sd:DataTable" x:Key="in_dt_CompareIdbLegacy">[io_dt_CompareIdbLegacy]</InArgument>
+        <InArgument x:TypeArguments="sd:DataTable" x:Key="in_dt_CompareIdb">[io_dt_CompareIdb]</InArgument>
+        <InArgument x:TypeArguments="sd:DataRow" x:Key="in_TransactionItem">[io_TransactionItem]</InArgument>
+        <OutArgument x:TypeArguments="sd:DataTable" x:Key="ou_dt_ScrapeLegacy">[io_dt_ScrapeLegacy]</OutArgument>
+      </ui:InvokeWorkflowFile.Arguments>
+    </ui:InvokeWorkflowFile>
+    <ui:InvokeWorkflowFile ContinueOnError="{x:Null}" DisplayName="Invoke idbExtract workflow" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_3" UnSafe="False" WorkflowFileName="Idb\idbExtract.xaml">
+      <ui:InvokeWorkflowFile.Arguments>
+        <InArgument x:TypeArguments="sd:DataRow" x:Key="in_TransactionItem">[io_TransactionItem]</InArgument>
+        <InArgument x:TypeArguments="sd:DataTable" x:Key="in_dt_CompareIdb">[io_dt_CompareIdb]</InArgument>
+        <OutArgument x:TypeArguments="sd:DataTable" x:Key="ou_dt_ScrapeNew">[io_dt_ScrapeNew]</OutArgument>
+      </ui:InvokeWorkflowFile.Arguments>
+    </ui:InvokeWorkflowFile>
+    <ui:InvokeWorkflowFile ContinueOnError="{x:Null}" DisplayName="Invoke TextFormat workflow" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_4" UnSafe="False" WorkflowFileName="TextFormat.xaml">
+      <ui:InvokeWorkflowFile.Arguments>
+        <InArgument x:TypeArguments="sd:DataTable" x:Key="in_CompareLegacy">[io_dt_CompareIdbLegacy]</InArgument>
+        <InArgument x:TypeArguments="sd:DataTable" x:Key="in_CompareIdb">[io_dt_CompareIdb]</InArgument>
+        <InArgument x:TypeArguments="scg:List(x:String)" x:Key="ListaError">[io_listaError]</InArgument>
+        <InArgument x:TypeArguments="sd:DataTable" x:Key="in_dt_ScrapeLegacy">[io_dt_ScrapeLegacy]</InArgument>
+        <InArgument x:TypeArguments="sd:DataTable" x:Key="in_dt_ScrapeNew">[io_dt_ScrapeNew]</InArgument>
+        <InArgument x:TypeArguments="x:String" x:Key="in_TransactionItem">[io_TransactionItem(0).ToString]</InArgument>
+      </ui:InvokeWorkflowFile.Arguments>
+    </ui:InvokeWorkflowFile>
+    <ui:ClearDataTable DataTable="[io_dt_CompareIdb]" DisplayName="Clear Data Table" sap2010:WorkflowViewState.IdRef="ClearDataTable_1" />
+    <ui:ClearDataTable DataTable="[io_dt_CompareIdbLegacy]" DisplayName="Clear Data Table" sap2010:WorkflowViewState.IdRef="ClearDataTable_2" />
+    <ui:ClearDataTable DataTable="[io_dt_ScrapeLegacy]" DisplayName="Clear Data Table" sap2010:WorkflowViewState.IdRef="ClearDataTable_3" />
+    <ui:ClearDataTable DataTable="[io_dt_ScrapeNew]" DisplayName="Clear Data Table" sap2010:WorkflowViewState.IdRef="ClearDataTable_4" />
+    <If Condition="[in_TransactionNumber = in_TransactionData.Rows.Count]" DisplayName="Organizar" sap2010:WorkflowViewState.IdRef="If_1">
+      <If.Then>
+        <Sequence sap2010:WorkflowViewState.IdRef="Sequence_3">
+          <WriteLine DisplayName="Write Line" sap2010:WorkflowViewState.IdRef="WriteLine_2" Text="[in_TransactionNumber.ToString+&quot; --- &quot;+in_TransactionData.Rows.Count.ToString +&quot; &lt;---- Finalizo&quot;]" />
+          <ui:WriteTextFile DisplayName="Write Text File" FileName="C:\Users\Daniel Quiroz\Desktop\TSDD.txt" sap2010:WorkflowViewState.IdRef="WriteTextFile_1" Text="[string.Join(vbCrLf,io_listaError)]" />
+        </Sequence>
+      </If.Then>
+    </If>
+    <sads:DebugSymbol.Symbol>d3VDOlxVc2Vyc1xEYW5pZWwgUXVpcm96XERlc2t0b3BcUHJvamVjdG9zIFJQQVxDb21wYXJhY2lvbkViRmFjdG9yeVxNSUNJX0NvbXBhcmFjaW9uZXNcQ29tcGFyYWNhY2lvbmVzTUlDSVxQcm9jZXNzLnhhbWwsVQN/DgIBAVYFVoEBAgE9VwVX9QECATlYBVjeAQIBNVkFYB0CASthBWcdAgEjaAVxHQIBFnIFcosBAgETcwVzkQECARB0BXSNAQIBDXUFdYoBAgEKdgV9CgIBAlZcVn4CAT5XgQFX8gECATxXHFczAgE6WHtY2wECAThYHFgtAgE2XlBeZAIBM1tTW2sCATFcTVxfAgEvXU1dYQIBLVm9AVneAQIBLGVNZV4CASlkTWRfAgEnY01jYQIBJWG3AWHMAQIBJGpNamUCASFtT21jAgEfa0prXAIBHW5Mbl0CARtvS29rAgEabE1sXAIBGGi3AWjIAQIBF3IicjYCARRzInM8AgERdCJ0OAIBDnUidTUCAQt2E3ZLAgEDeAl7FAIBBHkLed8BAgEIegt6zQECAQV5YnncAQIBCXqlAXrKAQIBB3pEem0CAQY=</sads:DebugSymbol.Symbol>
+  </Sequence>
+  <sap2010:WorkflowViewState.ViewStateManager>
+    <sap2010:ViewStateManager>
+      <sap2010:ViewStateData Id="WriteLine_1" sap:VirtualizedContainerService.HintSize="464,62.4" />
+      <sap2010:ViewStateData Id="NavigateTo_1" sap:VirtualizedContainerService.HintSize="464,60" />
+      <sap2010:ViewStateData Id="NavigateTo_2" sap:VirtualizedContainerService.HintSize="464,60" />
+      <sap2010:ViewStateData Id="InvokeWorkflowFile_1" sap:VirtualizedContainerService.HintSize="464,88" />
+      <sap2010:ViewStateData Id="InvokeWorkflowFile_3" sap:VirtualizedContainerService.HintSize="464,88" />
+      <sap2010:ViewStateData Id="InvokeWorkflowFile_4" sap:VirtualizedContainerService.HintSize="464,88" />
+      <sap2010:ViewStateData Id="ClearDataTable_1" sap:VirtualizedContainerService.HintSize="464,22.4" />
+      <sap2010:ViewStateData Id="ClearDataTable_2" sap:VirtualizedContainerService.HintSize="464,22.4" />
+      <sap2010:ViewStateData Id="ClearDataTable_3" sap:VirtualizedContainerService.HintSize="464,22.4" />
+      <sap2010:ViewStateData Id="ClearDataTable_4" sap:VirtualizedContainerService.HintSize="464,22.4" />
+      <sap2010:ViewStateData Id="WriteLine_2" sap:VirtualizedContainerService.HintSize="314.4,62.4" />
+      <sap2010:ViewStateData Id="WriteTextFile_1" sap:VirtualizedContainerService.HintSize="314.4,88">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsPinned">False</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="Sequence_3" sap:VirtualizedContainerService.HintSize="336.8,315.2">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="If_1" sap:VirtualizedContainerService.HintSize="464,464.8" />
+      <sap2010:ViewStateData Id="Sequence_1" sap:VirtualizedContainerService.HintSize="486.4,1585.6">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+            <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="ProcessTransaction_1" sap:VirtualizedContainerService.HintSize="526.4,1665.6" />
+    </sap2010:ViewStateManager>
+  </sap2010:WorkflowViewState.ViewStateManager>
+</Activity>
